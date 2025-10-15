@@ -6,6 +6,7 @@ import { Game, GameResponse } from '@/types'
 import { GameCard } from '@/components/shared/games/GameCard'
 import { transformGame } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/store/auth-context'
 
 const GamesPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -13,6 +14,7 @@ const GamesPage = () => {
   const [games, setGames] = useState<Game[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const {isAuthenticated} = useAuth()
 
   
 
@@ -68,7 +70,11 @@ const GamesPage = () => {
       {/* Games Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {displayedGames.map((game) => (
-          <GameCard key={game.product_id} game={game} />
+          <GameCard 
+            key={game.product_id} 
+            game={game} 
+            isAuthenticated={isAuthenticated}
+          />
         ))}
       </div>
 

@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
+import { useAuth } from '@/store/auth-context'
+import { log } from 'console'
 
 const LoginForm = () => {
     const searchParams = useSearchParams()
@@ -12,6 +14,8 @@ const LoginForm = () => {
     const callbackUrl = searchParams.get('callbackUrl') || '/games'
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const {loginSuccess} = useAuth()
+    
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,16 +49,11 @@ const LoginForm = () => {
         }
         
         // Destructure the response data
-        const { message, user, jwtoken } = data
+        const { message, user, jwtToken } = data
+        
 
-        // Store the JWT token
-        if (jwtoken) {
-          localStorage.setItem('token', jwtoken)
-          localStorage.setItem('user', JSON.stringify(user))
-        }
-
-        // Show success message if needed
-        console.log(message) // You can handle the message as needed
+        // Use auth context to handle login
+        loginSuccess(jwtToken, user)
 
 
         router.push(callbackUrl)

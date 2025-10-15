@@ -2,8 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Game } from "@/types";
 import Link from "next/link";
 
-export const GameCard = ({ game }: { game: Game }) => (
-    <Link href={`/games/${game.product_id}`}>
+
+interface GameCardProps {
+  game: Game
+  isAuthenticated: boolean
+}
+
+export const GameCard = ({ game, isAuthenticated }: GameCardProps) => (
     
   <div className="bg-gray-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300">
     <div className="p-4">
@@ -13,12 +18,15 @@ export const GameCard = ({ game }: { game: Game }) => (
         <p>Multiplier: {game.winningMultiplier}x</p>
         <p>Bet Range: ${game.minBet} - ${game.maxBet}</p>
       </div>
-      {/* <button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-        Play Now
-      </button> */}
-      <Button className="mt-4 w-full bg-green-600 hover:bg-green-700">Play now</Button>
+      {isAuthenticated ? (
+        <Link href={`/games/${game.product_id}`}>
+          <Button className="mt-4 w-full bg-green-600 hover:bg-green-700">Play now</Button>
+        </Link>
+      ) : (
+          <Button className="mt-4 w-full bg-gray-600 hover:bg-gray-700">Login to Play</Button>
+      )}
+
     </div>
   </div>
-  </Link>
 )
 
