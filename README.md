@@ -3,7 +3,7 @@
 - Full-stack application with React front-end, Spring Boot backend with H2 database (in-memory)
 - Make sure both front end and back end are running, and make sure localhost:3000 and localhost:8080 aren’t being used
 
-## Backend 
+## Java Spring Boot Backend 
 
 https://github.com/winstonl4m/CasinoGameBack
 
